@@ -1,21 +1,27 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.conf.urls import handler403, handler404, handler500
+"""blogicum URL Configuration."""
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include, reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
 
-handler404 = 'pages.views.page_not_found_custom'
-handler500 = 'pages.views.server_error_custom'
-handler403 = 'pages.views.csrf_failure'
+handler403 = 'pages.views.page_403'
+handler404 = 'pages.views.page_404'
+handler500 = 'pages.views.page_500'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('blog.urls', namespace='blog')),
-    path('pages/', include('pages.urls', namespace='pages')),
+    path("", include('blog.urls')),
+    path("pages/", include('pages.urls')),
+    path("admin/", admin.site.urls),
     path('auth/', include('django.contrib.auth.urls')),
-    path('reg/', include('pages.reg_urls')),
-]
-
-if settings.DEBUG:
-    urlpatterns += (static
-                    (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+    path(
+        'auth/registration/',
+        CreateView.as_view(
+            template_name='registration/registration_form.html',
+            form_class=UserCreationForm,
+            success_url=reverse_lazy('login'),
+        ),
+        name='registration',
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
