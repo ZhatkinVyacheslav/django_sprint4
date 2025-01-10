@@ -1,31 +1,21 @@
 from django import forms
-from . import views
+from .models import Post, Comment
+from django.contrib.auth.models import User
 
 
 class PostForm(forms.ModelForm):
-
-    class Meta():
-        model = views.Post
-        exclude = [
-            'author',
-            'is_published'
-        ]
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'image', 'category', 'pub_date']
 
 
 class CommentForm(forms.ModelForm):
-
-    class Meta():
-        model = views.Comment
-        fields = ('text',)
+    class Meta:
+        model = Comment
+        fields = ['text']
 
 
 class ProfileEditForm(forms.ModelForm):
-
-    class Meta():
-        model = views.User
-        fields = (
-            'first_name',
-            'last_name',
-            'email',
-            'username',
-        )
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']

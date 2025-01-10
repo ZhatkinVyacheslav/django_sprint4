@@ -1,10 +1,8 @@
-"""Blog apps."""
 from django.apps import AppConfig
+from django.utils.translation import gettext_lazy as _
 
 
 class BlogConfig(AppConfig):
-    """BlogConfig apps."""
-
     default_auto_field = 'django.db.models.BigAutoField'
-    verbose_name = 'Блог'
     name = 'blog'
+    verbose_name = _('Блог')

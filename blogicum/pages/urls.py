@@ -1,10 +1,9 @@
-"""URLs of pages app."""
 from django.urls import path
-from . import views
+from .views import AboutPageView, RulesPageView
 
 app_name = 'pages'
 
 urlpatterns = [
-    path('about/', views.AboutView.as_view(), name='about'),
-    path('rules/', views.RulesView.as_view(), name='rules'),
+    path('about/', AboutPageView.as_view(), name='about'),
+    path('rules/', RulesPageView.as_view(), name='rules'),
 ]
